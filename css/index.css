@@ -11,6 +11,7 @@ html {
   font-size: 62.5%;
 }
 body {
+  overflow: scroll;
   font-family: "Rubik", sans-serif;
   background: linear-gradient(to right, #807ece 0%, #8e7ece 100%);
 }
@@ -19,8 +20,8 @@ img {
 }
 /* Container */
 .container {
-  margin: 3rem auto;
-  padding: 5rem 2rem;
+  margin: 1rem auto;
+  padding: 3rem 2rem;
   border-radius: 4.8rem;
   max-width: 300px;
   background-color: #2d2a37;
@@ -56,15 +57,20 @@ img {
 .input__preview {
   color: #6b6b6b;
   font-size: 2rem;
-  margin-bottom: 1.5rem;
+  min-height: 3.35rem;
+  margin: 0;
 }
 .input__line {
+  min-height: 4rem;
   color: #fff;
   font-size: 3.6rem;
-  margin-bottom: 2.5rem;
+  margin: 2rem 0;
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-height: 600px) {
+  .input__preview {
+    margin-top: 3rem;
+  }
 }
 
 /* Button */

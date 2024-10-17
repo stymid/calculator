@@ -11,37 +11,45 @@
       rel="stylesheet"
     />
 
-    <link rel="stylesheet" href="node_modules/normalize.css/normalize.css" />
     <link rel="stylesheet" href="css/index.css" />
   </head>
   <body>
     <div class="container">
       <div class="input">
-        <div class="input__preview">1+1</div>
-        <div class="input__line">1</div>
+        <p class="input__preview"></p>
+        <p class="input__line">0</p>
       </div>
       <div class="container__button grid">
-        <button class="btn btn--primary btn--ce">CE</button>
-        <button class="btn btn--primary">C</button>
-        <button class="btn btn--primary">%</button>
-        <button class="btn btn--secondary">÷</button>
-        <button class="btn btn--primary">7</button>
-        <button class="btn btn--primary">8</button>
-        <button class="btn btn--primary">9</button>
-        <button class="btn btn--secondary">×</button>
-        <button class="btn btn--primary">4</button>
-        <button class="btn btn--primary">5</button>
-        <button class="btn btn--primary">6</button>
-        <button class="btn btn--secondary">-</button>
-        <button class="btn btn--primary">1</button>
-        <button class="btn btn--primary">2</button>
-        <button class="btn btn--primary">3</button>
-        <button class="btn btn--secondary">+</button>
-        <button class="btn btn--primary">±</button>
-        <button class="btn btn--primary">0</button>
-        <button class="btn btn--primary">,</button>
-        <button class="btn btn--secondary">=</button>
+        <button onclick="" class="btn btn--primary btn--ce">CE</button>
+        <button onclick="" class="btn btn--primary">C</button>
+        <button onclick="" class="btn btn--primary">%</button>
+        <button onclick="onClickOperator('÷')" class="btn btn--secondary">
+          ÷
+        </button>
+        <button onclick="onAddChar('7')" class="btn btn--primary">7</button>
+        <button onclick="onAddChar('8')" class="btn btn--primary">8</button>
+        <button onclick="onAddChar('9')" class="btn btn--primary">9</button>
+        <button onclick="onClickOperator('×')" class="btn btn--secondary">
+          ×
+        </button>
+        <button onclick="onAddChar('4')" class="btn btn--primary">4</button>
+        <button onclick="onAddChar('5')" class="btn btn--primary">5</button>
+        <button onclick="onAddChar('6')" class="btn btn--primary">6</button>
+        <button onclick="onClickOperator('-')" class="btn btn--secondary">
+          -
+        </button>
+        <button onclick="onAddChar('1')" class="btn btn--primary">1</button>
+        <button onclick="onAddChar('2')" class="btn btn--primary">2</button>
+        <button onclick="onAddChar('3')" class="btn btn--primary">3</button>
+        <button onclick="onClickOperator('+')" class="btn btn--secondary">
+          +
+        </button>
+        <button onclick="" class="btn btn--primary">±</button>
+        <button onclick="onAddChar('0')" class="btn btn--primary">0</button>
+        <button onclick="onAddChar('.')" class="btn btn--primary">.</button>
+        <button onclick="onAddChar('=')" class="btn btn--secondary">=</button>
       </div>
     </div>
+    <script src="/js/index.js"></script>
   </body>
 </html>
