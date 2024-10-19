@@ -83,7 +83,7 @@ const handleKeyPress = (e) => {
         return;
       }
     } else if (operatorAdded) {
-      const indexOperation = (x) => {
+      const indexOperation = () => {
         const indexes = [];
         for (let i = 0; operators.length > i; i++) {
           for (let i1 = 0; operation.length > i1; i1++) {
@@ -92,8 +92,8 @@ const handleKeyPress = (e) => {
             }
           }
         }
-
-        if (operation[0] === "(") {
+        indexes.sort();
+        if (operation[0] === "(" || operation[0] === "-") {
           return indexes[1];
         } else {
           return indexes[0];
@@ -157,6 +157,14 @@ const evaluate = (e) => {
     operation = answer.toString();
 
     return;
+  }
+  if (key === "ce") {
+    operation = "";
+    answer = 0;
+    operatorAdded = false;
+    decimalAdded = false;
+    input.innerText = "";
+    history.innerText = "";
   }
 };
 
