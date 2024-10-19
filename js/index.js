@@ -1,48 +1,57 @@
 const digits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-const operators = ["+", "-", "*", "/"];
-let prvInput = document.querySelector(".input__preview").innerText;
-let inlineInput = document.querySelector(".input__line").innerText;
-let firstOperand = 0;
-let secondOperand = 0;
+const operators = ["+", "-", "×", "÷"];
+const input = document.querySelector(".input");
+const history = document.querySelector(".history");
+const keys = document.querySelectorAll(".container__button span");
+let operation = "";
+let answer;
+let operatorAdded = false;
 
-const test = () => {};
-// this function adds characters to first and second operand
-const onAddChar = (char) => {
-  // This condition specifies how to add the character to inlineInput and the first and second operand
-  if (!isIncloudOperator(inlineInput)) {
-    if (firstOperand === 0) {
-      firstOperand = char;
-      inlineInput = char;
-      document.querySelector(".input__line").innerText = inlineInput;
-    } else {
-      firstOperand = firstOperand + char;
-      inlineInput = inlineInput + char;
-      document.querySelector(".input__line").innerText = inlineInput;
+const handleKeyPress = (e) => {
+  const key = e.target.dataset.key;
+  const lastIndex = operation[operation.length - 1];
+
+  if (key === "=") {
+    return;
+  }
+
+  // if (!operation === "" && answer && !operators.indexOf(key) === -1) {
+  //   history.innerText = "";
+  // }
+
+  if (operators.includes(key)) {
+    if (operators.includes(lastIndex)) {
     }
-  } else {
-    inlineInput = inlineInput + char;
-    document.querySelector(".input__line").innerText = inlineInput;
-    if (secondOperand === 0) {
-      secondOperand = char;
+    if (!operatorAdded) {
+      operatorAdded = true;
+      operation = operation + key;
+      input.innerText = operation;
+      history.innerText = "";
+      return;
     } else {
-      secondOperand = secondOperand + char;
+      return;
     }
+  }
+  if (digits.includes(key)) {
+    operation = operation + key;
+    input.innerText = operation;
+    return;
   }
 };
 
-// this condition specify that inlineInput has any operator or not
-const isIncloudOperator = (str) => {
-  for (let i = 0; str.split.length > i; i++) {
-    if (str.split("").includes(operators[i])) {
-      return true;
-    }
-  }
-  return false;
-};
-// This function must determine if the operator should calculate two numbers or if it should be added to the inlineInput as a character.
-const onClickOperator = (operator) => {
-  if (!isIncloudOperator(inlineInput)) {
-    inlineInput = inlineInput + operator;
-    document.querySelector(".input__line").innerText = inlineInput;
+const evaluate = (e) => {
+  const key = e.target.dataset.key;
+  if (key === "=") {
+    operatorAdded = !operatorAdded;
+    const final = operation.replace(/÷/g, "/").replace(/×/g, "*");
+    history.innerText = operation;
+    answer = +eval(final);
+    input.innerText = answer;
+    operation = answer;
+    return;
   }
 };
+keys.forEach((key) => {
+  key.addEventListener("click", evaluate);
+  key.addEventListener("click", handleKeyPress);
+});
