@@ -61,7 +61,7 @@ const handleKeyPress = (e) => {
       operation = operation + key;
       input.innerText = operation;
       history.innerText = "";
-      decimalAdded = !decimalAdded;
+      decimalAdded = false;
       return;
     } else {
       return;
