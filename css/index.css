@@ -59,8 +59,10 @@ img {
   font-size: 2rem;
   min-height: 3.35rem;
   margin: 0;
+  overflow: auto;
 }
 .input {
+  overflow: auto;
   min-height: 4rem;
   color: #fff;
   font-size: 3.6rem;

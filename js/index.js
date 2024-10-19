@@ -1,4 +1,4 @@
-const digits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+const digits = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
 const operators = ["+", "-", "×", "÷"];
 const input = document.querySelector(".input");
 const history = document.querySelector(".history");
@@ -6,6 +6,7 @@ const keys = document.querySelectorAll(".container__button span");
 let operation = "";
 let answer;
 let operatorAdded = false;
+let decimalAdded = false;
 
 const handleKeyPress = (e) => {
   const key = e.target.dataset.key;
@@ -15,21 +16,92 @@ const handleKeyPress = (e) => {
     return;
   }
 
-  // if (!operation === "" && answer && !operators.indexOf(key) === -1) {
-  //   history.innerText = "";
-  // }
+  if (key === "." && decimalAdded) {
+    return;
+  }
+  if (key === "." && (answer % 1 === 0 || operatorAdded)) {
+    operation = operation + key;
+    decimalAdded = !decimalAdded;
+    input.innerText = operation;
+  }
+
+  if (key === "0") {
+    if (
+      (operation[0] === "0" && !operation[1] === ".") ||
+      (operation[0] === "(" && !operation[3] === ".")
+    ) {
+      return;
+    } else if (
+      (operatorAdded &&
+        !operation.at(-1) === "." &&
+        operation.at(-2) === "0") ||
+      (operatorAdded && !operation.at(-2) === "." && operation.at(-3) === "0")
+    ) {
+      return;
+    }
+  }
 
   if (operators.includes(key)) {
-    if (operators.includes(lastIndex)) {
-    }
     if (!operatorAdded) {
       operatorAdded = true;
       operation = operation + key;
       input.innerText = operation;
       history.innerText = "";
+      decimalAdded = !decimalAdded;
       return;
     } else {
       return;
+    }
+  }
+  if (key === "±") {
+    if (!operatorAdded) {
+      if (operation[0] === "0" || digits.includes(operation[0])) {
+        operation = "(-" + operation + ")";
+        input.innerText = operation;
+        return;
+      } else if (operation[0] === "(") {
+        operation = operation.slice(2, operation.length - 1);
+        input.innerText = operation;
+        return;
+      } else if (operation[0] === "-") {
+        operation = operation.slice(1);
+        input.innerText = operation;
+        return;
+      }
+    } else if (operatorAdded) {
+      const indexOperation = (x) => {
+        const indexes = [];
+        for (let i = 0; operators.length > i; i++) {
+          for (let i1 = 0; operation.length > i1; i1++) {
+            if (operation[i1] === operators[i]) {
+              indexes.push(i1);
+            }
+          }
+        }
+
+        if (operation[0] === "(") {
+          return indexes[1];
+        } else {
+          return indexes[0];
+        }
+      };
+
+      if (
+        operation[indexOperation() + 1] === "0" ||
+        digits.includes(operation[indexOperation() + 1])
+      ) {
+        operation =
+          operation.slice(0, indexOperation() + 1) +
+          "(-" +
+          operation.slice(indexOperation() + 1) +
+          ")";
+        input.innerText = operation;
+      } else if (operation[indexOperation() + 1] === "(") {
+        operation =
+          operation.slice(0, indexOperation() + 1) +
+          operation.slice(indexOperation() + 3, operation.length - 1);
+        input.innerText = operation;
+      }
     }
   }
   if (digits.includes(key)) {
@@ -43,14 +115,17 @@ const evaluate = (e) => {
   const key = e.target.dataset.key;
   if (key === "=") {
     operatorAdded = !operatorAdded;
+    decimalAdded = !decimalAdded;
     const final = operation.replace(/÷/g, "/").replace(/×/g, "*");
     history.innerText = operation;
-    answer = +eval(final);
+    answer = +eval(final).toFixed(5);
     input.innerText = answer;
-    operation = answer;
+    operation = answer.toString();
+
     return;
   }
 };
+
 keys.forEach((key) => {
   key.addEventListener("click", evaluate);
   key.addEventListener("click", handleKeyPress);
