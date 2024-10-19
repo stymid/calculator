@@ -95,6 +95,7 @@ img {
     0px 2px 4px 0px rgba(0, 0, 0, 0.26),
     inset 0px 0px 2px 0px rgba(0, 0, 0, 0.29),
     inset 0px 2px 3px 0px rgba(0, 0, 0, 0.06);
+  transition: all 0.15s ease-in;
 }
 
 .btn--primary {

@@ -4,19 +4,20 @@ const input = document.querySelector(".input");
 const history = document.querySelector(".history");
 const keys = document.querySelectorAll(".container__button span");
 let operation = "";
-let answer;
+let answer = 0;
 let operatorAdded = false;
 let decimalAdded = false;
 
 const handleKeyPress = (e) => {
   const key = e.target.dataset.key;
-  const lastIndex = operation[operation.length - 1];
 
   if (key === "=") {
     return;
   }
 
   if (key === "." && decimalAdded) {
+    console.log("ghj");
+
     return;
   }
   if (key === "." && (answer % 1 === 0 || operatorAdded)) {
@@ -37,6 +38,19 @@ const handleKeyPress = (e) => {
         operation.at(-2) === "0") ||
       (operatorAdded && !operation.at(-2) === "." && operation.at(-3) === "0")
     ) {
+      return;
+    } else if (
+      operation[0] === "(" ||
+      operation[operation.length - 1] === ")"
+    ) {
+      if (!operatorAdded) {
+        operation = operation.slice(0, operation.length - 1) + "0" + ")";
+        input.innerText = operation;
+        return;
+      }
+    } else {
+      operation = operation + key;
+      input.innerText = operation;
       return;
     }
   }
@@ -104,6 +118,7 @@ const handleKeyPress = (e) => {
       }
     }
   }
+
   if (digits.includes(key)) {
     operation = operation + key;
     input.innerText = operation;
@@ -115,11 +130,30 @@ const evaluate = (e) => {
   const key = e.target.dataset.key;
   if (key === "=") {
     operatorAdded = !operatorAdded;
-    decimalAdded = !decimalAdded;
     const final = operation.replace(/÷/g, "/").replace(/×/g, "*");
     history.innerText = operation;
     answer = +eval(final).toFixed(5);
-    input.innerText = answer;
+    if (answer % 1 === 0) {
+      decimalAdded = false;
+    } else {
+      decimalAdded = true;
+    }
+    input.innerText = answer.toString();
+    operation = answer.toString();
+
+    return;
+  }
+  if (key === "%") {
+    operatorAdded = !operatorAdded;
+    const final = operation.replace(/÷/g, "/").replace(/×/g, "*");
+    history.innerText = operation;
+    answer = (+eval(final) / 100).toFixed(2);
+    if (answer % 1 === 0) {
+      decimalAdded = false;
+    } else {
+      decimalAdded = true;
+    }
+    input.innerText = answer.toString();
     operation = answer.toString();
 
     return;
