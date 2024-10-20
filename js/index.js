@@ -63,8 +63,14 @@ const handleKeyPress = (e) => {
       history.innerText = "";
       decimalAdded = false;
       return;
-    } else {
-      return;
+    } else if (operatorAdded) {
+      if (operators.includes(operation[operation.length - 1])) {
+        console.log("fghj");
+        operation = operation.slice(0, operation.length - 1);
+        operation = operation + key;
+        input.innerText = operation;
+        return;
+      }
     }
   }
   if (key === "±") {
@@ -131,6 +137,8 @@ const evaluate = (e) => {
   if (key === "=") {
     operatorAdded = !operatorAdded;
     const final = operation.replace(/÷/g, "/").replace(/×/g, "*");
+    if (final.includes(final[final.length - 1])) {
+    }
     history.innerText = operation;
     answer = +eval(final).toFixed(5);
     if (answer % 1 === 0) {
@@ -172,3 +180,8 @@ keys.forEach((key) => {
   key.addEventListener("click", evaluate);
   key.addEventListener("click", handleKeyPress);
 });
+// const y = "sdfghjk";
+// function x(y) {
+//   console.log(y[y.length - 1]);
+// }
+// x(y);
